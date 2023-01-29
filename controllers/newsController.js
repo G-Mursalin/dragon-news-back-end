@@ -12,6 +12,8 @@ const getANews = (req, res) => {
 };
 
 const getNewsCategoryWise = (req, res) => {
+  if (req.params.id === "08") return res.status(200).send(news);
+
   const category_news = news.filter((val) => val.category_id === req.params.id);
 
   if (category_news.length === 0) {
