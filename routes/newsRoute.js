@@ -3,12 +3,14 @@ const {
   getAllNews,
   getANews,
   getNewsCategoryWise,
+  getTodaysPickNews,
 } = require("../controllers/newsController");
 
 // Routs
 const newsRoute = express.Router();
 
 newsRoute.route("/").get(getAllNews);
+newsRoute.route("/todays-pick").get(getTodaysPickNews);
 newsRoute.route("/:id").get(getANews);
 newsRoute.route("/category/:id").get(getNewsCategoryWise);
 

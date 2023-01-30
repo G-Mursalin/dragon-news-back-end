@@ -16,15 +16,30 @@ const getANews = catchAsync(async (req, res) => {
 });
 
 const getNewsCategoryWise = catchAsync(async (req, res) => {
-  const category_news = await News.find({
-    category_id: req.params.id,
-  });
+  let category_news;
+  if (req.params.id === "8") {
+    category_news = await News.find();
+  } else {
+    category_news = await News.find({
+      category_id: req.params.id,
+    });
+  }
 
   res.status(200).send({ status: "success", data: { category_news } });
+});
+
+const getTodaysPickNews = catchAsync(async (req, res) => {
+  const todays_pick = await News.find({ "others_info.is_todays_pick": true });
+
+  res.status(200).send({
+    status: "success",
+    data: { todays_pick },
+  });
 });
 
 module.exports = {
   getAllNews,
   getANews,
   getNewsCategoryWise,
+  getTodaysPickNews,
 };
