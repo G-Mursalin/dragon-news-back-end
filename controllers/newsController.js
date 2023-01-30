@@ -1,27 +1,27 @@
-const news = require("./../dev-data/news.json");
+const News = require("../models/newsModel");
+const { catchAsync } = require("../utils/catchAsync");
 
 // Handlers
-const getAllNews = (req, res) => {
-  res.status(200).send(news);
-};
+const getAllNews = catchAsync(async (req, res) => {
+  const news = await News.find();
+  res.status(200).send({ status: "success", data: { news } });
+});
 
-const getANews = (req, res) => {
-  const selected_news = news.find((val) => val._id === req.params.id);
-
-  res.status(200).send(selected_news);
-};
-
-const getNewsCategoryWise = (req, res) => {
-  if (req.params.id === "08") return res.status(200).send(news);
-
-  const category_news = news.filter((val) => val.category_id === req.params.id);
-
-  if (category_news.length === 0) {
-    res.status(200).send({ message: "No news to show" });
-  } else {
-    res.status(200).send(category_news);
+const getANews = catchAsync(async (req, res) => {
+  const oneNews = await News.findById(req.params.id);
+  if (!oneNews) {
+    return next(new AppError("No tour found with that ID", 404));
   }
-};
+  res.status(200).send({ status: "success", data: { oneNews } });
+});
+
+const getNewsCategoryWise = catchAsync(async (req, res) => {
+  const category_news = await News.find({
+    category_id: req.params.id,
+  });
+
+  res.status(200).send({ status: "success", data: { category_news } });
+});
 
 module.exports = {
   getAllNews,
