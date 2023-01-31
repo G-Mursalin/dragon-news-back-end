@@ -37,9 +37,19 @@ const getTodaysPickNews = catchAsync(async (req, res) => {
   });
 });
 
+const getTrendingNews = catchAsync(async (req, res) => {
+  const trending_news = await News.find({ "others_info.is_trending": true });
+
+  res.status(200).send({
+    status: "success",
+    data: { trending_news },
+  });
+});
+
 module.exports = {
   getAllNews,
   getANews,
   getNewsCategoryWise,
   getTodaysPickNews,
+  getTrendingNews,
 };
