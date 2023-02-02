@@ -38,7 +38,7 @@ app.post("/upload-image", (req, res) => {
     } else {
       return res.status(201).send({
         success: true,
-        url: "http://localhost:5000/image/" + imageName,
+        url: "https://dragon-news.onrender.com/image/" + imageName,
       });
     }
   });
